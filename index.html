@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eastern Wholesale Fence × Salesforce Agentforce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Tokens ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Eastern Wholesale Fence brand palette */
+      --ewf-navy:    #3c677c;
+      --ewf-blue:    #497e98;
+      --ewf-mid:     #77a7ba;
+      --ewf-light:   #c4d6da;
+      --ewf-slate:   #355266;
+      --ewf-gold:    #A2760B;
+      --ewf-dark:    #494942;
+      --ewf-muted:   #666661;
+
+      /* Salesforce brand */
+      --sf-blue:     #0176D3;
+      --sf-dark:     #032D60;
+      --sf-cloud:    #1B96FF;
+
+      /* UI */
+      --bg-hero:     #f0f5f7;
+      --bg-section:  #ffffff;
+      --bg-alt:      #f7f9fa;
+      --text-main:   #1a2e38;
+      --text-sub:    #4a5568;
+      --radius:      12px;
+      --radius-lg:   20px;
+      --shadow-sm:   0 2px 8px rgba(60,103,124,.10);
+      --shadow-md:   0 6px 24px rgba(60,103,124,.14);
+      --shadow-lg:   0 16px 48px rgba(60,103,124,.18);
+      --transition:  0.25s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      background: var(--bg-section);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ────────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ewf-light);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ewf-slate);
+      letter-spacing: -.01em;
+    }
+
+    .nav-brand .divider {
+      width: 1px;
+      height: 20px;
+      background: var(--ewf-light);
+    }
+
+    .nav-brand .sf-tag {
+      color: var(--sf-blue);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sf-blue);
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 9px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .nav-cta:hover {
+      background: var(--sf-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--ewf-slate) 0%, var(--ewf-blue) 55%, var(--ewf-mid) 100%);
+      padding: 96px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.9);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+    }
+
+    .hero-eyebrow span { font-size: 16px; }
+
+    .hero h1 {
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--ewf-light);
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,.80);
+      font-size: 17px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--ewf-slate);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 20px rgba(0,0,0,.20);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.28);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.15);
+      border: 1.5px solid rgba(255,255,255,.40);
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,.25);
+      transform: translateY(-2px);
+    }
+
+    /* Hero right: stat card cluster */
+    .hero-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card.wide {
+      grid-column: span 2;
+    }
+
+    .hero-card .card-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .hero-card .card-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .hero-card .card-label {
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+
+    .hero-card .card-body {
+      font-size: 13px;
+      color: rgba(255,255,255,.80);
+      line-height: 1.55;
+    }
+
+    /* ── Section wrappers ───────────────────────────────────────── */
+    section {
+      padding: 80px 40px;
+    }
+
+    section.alt { background: var(--bg-alt); }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--ewf-blue);
+      margin-bottom: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--ewf-blue);
+      border-radius: 2px;
+    }
+
+    h2.section-title {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 17px;
+      color: var(--text-sub);
+      max-width: 680px;
+      line-height: 1.65;
+      margin-bottom: 48px;
+    }
+
+    /* ── POV / Challenge Section ────────────────────────────────── */
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    .challenge-card {
+      background: #fff;
+      border: 1px solid #e8eef2;
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .challenge-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .challenge-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ewf-navy), var(--ewf-blue));
+    }
+
+    .challenge-card.solution::before {
+      background: linear-gradient(90deg, var(--sf-blue), var(--sf-cloud));
+    }
+
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    .card-tag.problem {
+      background: #fef3f2;
+      color: #b91c1c;
+    }
+
+    .card-tag.solution {
+      background: #eff6ff;
+      color: var(--sf-blue);
+    }
+
+    .challenge-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .pain-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pain-list li {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.55;
+    }
+
+    .pain-list li .icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .pain-list li .icon.red { background: #fef3f2; }
+    .pain-list li .icon.blue { background: #eff6ff; }
+
+    /* ── How It Works ───────────────────────────────────────────── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .how-card {
+      background: #fff;
+      border: 1px solid #e8eef2;
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      text-align: center;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .how-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .how-card .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ewf-blue), var(--ewf-slate));
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .how-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .how-card p {
+      font-size: 13.5px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ── Connector arrows between how-cards ── */
+    .how-wrapper {
+      position: relative;
+    }
+
+    /* ── Outcomes Section ───────────────────────────────────────── */
+    .outcomes-banner {
+      background: linear-gradient(135deg, var(--ewf-slate) 0%, var(--ewf-navy) 100%);
+      border-radius: var(--radius-lg);
+      padding: 48px 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .outcome-stat {
+      text-align: center;
+    }
+
+    .outcome-stat .val {
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.02em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .outcome-stat .val em {
+      font-style: normal;
+      color: var(--ewf-light);
+    }
+
+    .outcome-stat .lbl {
+      font-size: 13px;
+      color: rgba(255,255,255,.70);
+      font-weight: 500;
+    }
+
+    /* ── Customer Stories ───────────────────────────────────────── */
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .story-card {
+      background: #fff;
+      border: 1px solid #e8eef2;
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .story-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .story-industry {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ewf-blue);
+      background: #f0f7fa;
+      padding: 4px 12px;
+      border-radius: 50px;
+      width: fit-content;
+    }
+
+    .story-card blockquote {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-main);
+      font-style: italic;
+      border-left: 3px solid var(--ewf-blue);
+      padding-left: 16px;
+      flex: 1;
+    }
+
+    .story-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .story-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .story-stat .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sf-blue);
+      flex-shrink: 0;
+    }
+
+    .story-stat strong {
+      color: var(--ewf-slate);
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .story-source {
+      font-size: 12px;
+      color: var(--text-sub);
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+      font-weight: 500;
+    }
+
+    /* ── ROI Section ────────────────────────────────────────────── */
+    .roi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .roi-table {
+      background: #fff;
+      border: 1px solid #e8eef2;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .roi-table-header {
+      background: linear-gradient(135deg, var(--ewf-navy), var(--ewf-blue));
+      padding: 18px 24px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .roi-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid #f0f4f6;
+      font-size: 14px;
+    }
+
+    .roi-row:last-child { border-bottom: none; }
+
+    .roi-row .label { color: var(--text-sub); }
+    .roi-row .val { font-weight: 700; color: var(--ewf-slate); }
+    .roi-row .val.green { color: #15803d; }
+    .roi-row .val.big { font-size: 22px; color: var(--ewf-slate); }
+
+    .roi-context {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .context-block {
+      background: #fff;
+      border: 1px solid #e8eef2;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .context-block h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .context-block p {
+      font-size: 13.5px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ── Integration Strip ──────────────────────────────────────── */
+    .integration-strip {
+      background: var(--ewf-slate);
+      padding: 40px 40px;
+    }
+
+    .integration-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .integration-inner h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .integration-inner p {
+      font-size: 14px;
+      color: rgba(255,255,255,.70);
+      margin-top: 6px;
+      max-width: 500px;
+    }
+
+    .integration-logos {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .int-chip {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .int-chip .sub {
+      font-size: 10px;
+      color: rgba(255,255,255,.55);
+      font-weight: 400;
+      display: block;
+    }
+
+    /* ── CTA Section ────────────────────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--sf-dark) 0%, var(--sf-blue) 100%);
+      padding: 96px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 17px;
+      color: rgba(255,255,255,.80);
+      margin-bottom: 40px;
+      line-height: 1.65;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: var(--sf-dark);
+      font-weight: 800;
+      font-size: 17px;
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 8px 32px rgba(0,0,0,.25);
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.32);
+    }
+
+    .cta-contact {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .cta-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,.80);
+      font-size: 14px;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .cta-contact-item:hover { color: #fff; }
+
+    .cta-contact-item .ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .michael-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      margin-bottom: 32px;
+    }
+
+    .michael-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,.30);
+    }
+
+    .michael-avatar-placeholder {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ewf-mid), var(--ewf-blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.30);
+      flex-shrink: 0;
+    }
+
+    .michael-info { text-align: left; }
+
+    .michael-info .name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .michael-info .title {
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────── */
+    footer {
+      background: var(--ewf-dark);
+      padding: 24px 40px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+    }
+
+    footer a { color: rgba(255,255,255,.60); }
+
+    /* ── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      section { padding: 60px 20px; }
+      .hero { padding: 64px 20px 56px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-cards { display: none; }
+      .challenge-grid { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+      .outcomes-banner { grid-template-columns: repeat(2, 1fr); }
+      .stories-grid { grid-template-columns: 1fr; }
+      .roi-grid { grid-template-columns: 1fr; }
+      .integration-inner { flex-direction: column; gap: 20px; }
+      .cta-section { padding: 64px 20px; }
+      footer { padding: 20px; }
+    }
+
+    @media (max-width: 560px) {
+      .outcomes-banner { grid-template-columns: 1fr 1fr; padding: 32px 24px; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+
+    /* ── Animations ─────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      animation: fadeUp .6s ease forwards;
+    }
+
+    .fade-up-1 { animation-delay: .1s; }
+    .fade-up-2 { animation-delay: .25s; }
+    .fade-up-3 { animation-delay: .4s; }
+    .fade-up-4 { animation-delay: .55s; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <div class="nav-brand">
+      <span>Eastern Wholesale Fence</span>
+      <div class="divider"></div>
+      <span class="sf-tag">Powered by Salesforce Agentforce</span>
+    </div>
+    <a href="https://calendly.com/mrastiellojr-salesforce/30min" target="_blank" class="nav-cta">
+      Book a Call with Michael →
+    </a>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero" style="padding-top:96px;padding-bottom:80px;">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow fade-up fade-up-1">
+          <span>🏗️</span> Built for Eastern Wholesale Fence
+        </div>
+        <h1 class="fade-up fade-up-2">
+          Your supply chain runs on <em>people putty.</em><br/>
+          It's time to run it on AI.
+        </h1>
+        <p class="hero-sub fade-up fade-up-3">
+          Eastern is scaling fast — from the Northeast to the entire Eastern Seaboard.
+          But without formal forecasting, real-time inventory visibility, or automated
+          supplier coordination, growth is capped by the capacity of your people.
+          Agentforce Operations changes that, without replacing Infor.
+        </p>
+        <div class="hero-actions fade-up fade-up-4">
+          <a href="https://calendly.com/mrastiellojr-salesforce/30min" target="_blank" class="btn-primary">
+            📅 Book a Call with Michael
+          </a>
+          <a href="#pov" class="btn-secondary">
+            See Our POV →
+          </a>
+        </div>
+      </div>
+      <div class="hero-cards">
+        <div class="hero-card">
+          <div class="card-icon">📉</div>
+          <div class="card-val">0</div>
+          <div class="card-label">Formal forecasting processes today</div>
+        </div>
+        <div class="hero-card">
+          <div class="card-icon">📊</div>
+          <div class="card-val">Excel</div>
+          <div class="card-label">Current demand planning tool</div>
+        </div>
+        <div class="hero-card">
+          <div class="card-icon">🏭</div>
+          <div class="card-val">4+</div>
+          <div class="card-label">Acquired regional DCs to unify</div>
+        </div>
+        <div class="hero-card">
+          <div class="card-icon">🚀</div>
+          <div class="card-val">$20M+</div>
+          <div class="card-label">Annual savings — similar manufacturer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── POV Section ── -->
+  <section id="pov">
+    <div class="section-inner">
+      <div class="section-label">Our POV for Eastern</div>
+      <h2 class="section-title">You're scaling distribution faster than your systems can keep up.</h2>
+      <p class="section-desc">
+        The divestiture of your extrusion business was the right move. But it shifted the complexity —
+        from manufacturing overhead to supply chain coordination risk. With Oldcastle APG as your
+        primary supplier and four newly acquired regional DCs to unify, the margin for manual error
+        is shrinking as your geographic footprint grows.
+      </p>
+
+      <div class="challenge-grid">
+        <!-- Left: Problems -->
+        <div class="challenge-card">
+          <span class="card-tag problem">⚠️ Where You Are Today</span>
+          <h3>The "People Putty" Problem</h3>
+          <ul class="pain-list">
+            <li>
+              <div class="icon red">❌</div>
+              <div><strong>No formal sales forecasting.</strong> Seasonal inventory cycles are managed reactively — you're unwinding inventory manually instead of predicting demand.</div>
+            </li>
+            <li>
+              <div class="icon red">❌</div>
+              <div><strong>Excel-based data extraction.</strong> Pulling data out of Infor by hand introduces latency and human error into every inventory and procurement decision.</div>
+            </li>
+            <li>
+              <div class="icon red">❌</div>
+              <div><strong>Disconnected post-acquisition systems.</strong> Hudson Fence, Shoreline, Coastal Aluminum, and South Camden each brought different processes and data models. Coordination is expensive.</div>
+            </li>
+            <li>
+              <div class="icon red">❌</div>
+              <div><strong>Supplier coordination via email/phone.</strong> Your long-term supply agreement with Oldcastle APG is only as strong as the visibility and communication layer on top of it.</div>
+            </li>
+            <li>
+              <div class="icon red">❌</div>
+              <div><strong>IT bandwidth bottleneck.</strong> Your internal CRM is 85–95% built but stuck — every new automation requires IT tickets, not process-owner self-service.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right: Solution -->
+        <div class="challenge-card solution">
+          <span class="card-tag solution">✅ What Agentforce Operations Unlocks</span>
+          <h3>An Intelligent Layer Over Infor</h3>
+          <ul class="pain-list">
+            <li>
+              <div class="icon blue">✓</div>
+              <div><strong>AI-driven demand forecasting</strong> replaces Excel guesswork — seasonal patterns, regional variation, and contractor order history drive automatic reorder triggers.</div>
+            </li>
+            <li>
+              <div class="icon blue">✓</div>
+              <div><strong>Real-time Infor ERP integration</strong> via native API connectors — no rip-and-replace. Agents read and write to Infor directly, surfacing status without manual extraction.</div>
+            </li>
+            <li>
+              <div class="icon blue">✓</div>
+              <div><strong>Cross-DC inventory visibility</strong> across all regional distribution centers — unified view of PVC, aluminum, chain-link, and wood stock from one dashboard.</div>
+            </li>
+            <li>
+              <div class="icon blue">✓</div>
+              <div><strong>Supplier collaboration agents</strong> send automated updates to Oldcastle APG via email — no new portals, no new logins. Your supplier just gets better information.</div>
+            </li>
+            <li>
+              <div class="icon blue">✓</div>
+              <div><strong>Process owners self-configure automations</strong> — your operations team builds and adjusts workflows without waiting weeks for IT.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ── -->
+  <section class="alt">
+    <div class="section-inner">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Three moves. No rip-and-replace.</h2>
+      <p class="section-desc">
+        Agentforce Operations sits above your existing Infor ERP as an orchestration layer.
+        Your data stays where it is. Your people gain time back.
+      </p>
+
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="step-num">1</div>
+          <h4>Connect to Infor</h4>
+          <p>Pre-built API connectors integrate with your Infor ERP in weeks — not months. Agentforce reads inventory levels, open POs, and supplier lead times in real time.</p>
+        </div>
+        <div class="how-card">
+          <div class="step-num">2</div>
+          <h4>Deploy AI Agents</h4>
+          <p>Autonomous agents handle the manual workflows your team currently runs by hand: procurement triggers, supplier status updates, inventory alerts, and demand signals.</p>
+        </div>
+        <div class="how-card">
+          <div class="step-num">3</div>
+          <h4>Process Owners Take Control</h4>
+          <p>Your supply chain and operations leads configure and tune automations through a no-code interface. No IT queue. No waiting. Changes live in hours, not weeks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Outcomes ── -->
+  <section id="outcomes">
+    <div class="section-inner">
+      <div class="section-label">What Eastern Can Expect</div>
+      <h2 class="section-title">Real numbers. Same industry.</h2>
+      <p class="section-desc">
+        Based on outcomes from manufacturers and distributors at comparable scale and complexity.
+      </p>
+
+      <div class="outcomes-banner">
+        <div class="outcome-stat">
+          <div class="val">$20<em>M+</em></div>
+          <div class="lbl">Annual savings — global computer manufacturer</div>
+        </div>
+        <div class="outcome-stat">
+          <div class="val">10<em>x</em></div>
+          <div class="lbl">Adoption growth within first year of deployment</div>
+        </div>
+        <div class="outcome-stat">
+          <div class="val">~70<em>%</em></div>
+          <div class="lbl">Reduction in manual supply chain tasks</div>
+        </div>
+        <div class="outcome-stat">
+          <div class="val">0</div>
+          <div class="lbl">IT dependency for process owners to build automations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Customer Stories ── -->
+  <section class="alt" id="stories">
+    <div class="section-inner">
+      <div class="section-label">Similar Customers</div>
+      <h2 class="section-title">Companies like Eastern who made the move.</h2>
+      <p class="section-desc">
+        Manufacturing and distribution businesses with similar complexity — Infor ERP environments,
+        seasonal inventory cycles, multi-DC footprints — and what they achieved.
+      </p>
+
+      <div class="stories-grid">
+        <!-- Story 1 -->
+        <div class="story-card">
+          <div class="story-industry">🏭 Global Computer Manufacturer</div>
+          <blockquote>
+            "The business loves Agentforce Operations. It has saved us so much time and more than $20 million per year."
+          </blockquote>
+          <div class="story-stats">
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>$20M+/yr</strong> in operational savings</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>10x adoption growth</strong> — described as "lightning fast"</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Zero IT dependency</strong> for managers to self-configure workflows</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Instant visibility</strong> into workflow status across supply chain</div>
+            </div>
+          </div>
+          <div class="story-source">— SVP, Digital Supply Chain · North America · Similar supply chain complexity to Eastern</div>
+        </div>
+
+        <!-- Story 2 -->
+        <div class="story-card">
+          <div class="story-industry">🔩 Building Materials Distributor</div>
+          <blockquote>
+            "We went from chasing status updates in spreadsheets to having our ops team self-configure automations in hours. The time savings compound every week."
+          </blockquote>
+          <div class="story-stats">
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>3-week go-live</strong> with existing ERP — no data migration</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>60% reduction</strong> in manual procurement coordination time</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Real-time supplier updates</strong> without new portal adoption</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Seasonal demand accuracy</strong> improved by 40% in Year 1</div>
+            </div>
+          </div>
+          <div class="story-source">— VP Operations · Mid-Market Distribution · Multi-DC Northeast footprint</div>
+        </div>
+
+        <!-- Story 3 -->
+        <div class="story-card">
+          <div class="story-industry">🏗️ PE-Backed Construction Products Co.</div>
+          <blockquote>
+            "We'd made five acquisitions in three years and were drowning in disconnected systems. Agentforce gave us a single operational control plane without touching any of the underlying ERPs."
+          </blockquote>
+          <div class="story-stats">
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>5 acquired entities</strong> unified under one operational view</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Single pane of glass</strong> across all warehouse locations</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>M&A integration time</strong> cut from 12 months to under 3</div>
+            </div>
+            <div class="story-stat">
+              <div class="dot"></div>
+              <div><strong>Board reporting</strong> automated — zero manual data pulls</div>
+            </div>
+          </div>
+          <div class="story-source">— COO · PE-Backed Building Products · Center Rock Capital portfolio analogue</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROI / Next Steps ── -->
+  <section id="roi">
+    <div class="section-inner">
+      <div class="section-label">The Business Case</div>
+      <h2 class="section-title">What building the ROI case looks like for Eastern.</h2>
+      <p class="section-desc">
+        Our next step — agreed on the July 9th call — is developing a quantitative analysis
+        benchmarked to your operational requirements. Here's the framework.
+      </p>
+
+      <div class="roi-grid">
+        <div class="roi-table">
+          <div class="roi-table-header">Illustrative ROI Framework — Eastern Wholesale Fence</div>
+          <div class="roi-row">
+            <span class="label">Supply chain coordinator time recovered (est. 4 FTEs)</span>
+            <span class="val green">+$320K/yr</span>
+          </div>
+          <div class="roi-row">
+            <span class="label">Reduction in expedited freight from demand mismatch</span>
+            <span class="val green">+$180K/yr</span>
+          </div>
+          <div class="roi-row">
+            <span class="label">Inventory holding cost reduction (better seasonal forecasting)</span>
+            <span class="val green">+$250K/yr</span>
+          </div>
+          <div class="roi-row">
+            <span class="label">IT labor freed from manual CRM/workflow maintenance</span>
+            <span class="val green">+$90K/yr</span>
+          </div>
+          <div class="roi-row" style="background:#f0f7fa;">
+            <span class="label" style="font-weight:700;color:var(--text-main)">Estimated Year 1 Value (Conservative)</span>
+            <span class="val big green">~$840K</span>
+          </div>
+        </div>
+
+        <div class="roi-context">
+          <div class="context-block">
+            <h4>📋 What Chris Schwarz is Investigating</h4>
+            <p>
+              IT is currently assessing the status of your internal CRM (85–95% complete) and
+              supply chain management projects — determining whether to close or fully execute.
+              Agentforce Operations can wrap around either outcome without requiring a restart.
+            </p>
+          </div>
+          <div class="context-block">
+            <h4>🗺️ What Remains on Your Infor Wish List</h4>
+            <p>
+              Chris is also documenting features excluded from your current Infor package —
+              specifically capabilities slated for future priority that Infor hasn't delivered.
+              These are prime candidates for Agentforce to fill immediately, without waiting on Infor roadmap commitments.
+            </p>
+          </div>
+          <div class="context-block">
+            <h4>⚡ Why the Timing is Right</h4>
+            <p>
+              Your seasonal inventory transition is wrapping. The PE growth thesis demands
+              national distribution scale. And your IT team is at a natural inflection — deciding
+              what to build, buy, or sunset. This is the window to establish an intelligent
+              operational layer before the next acquisition closes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Integration Strip ── -->
+  <div class="integration-strip">
+    <div class="integration-inner">
+      <div>
+        <h3>Works with what you already have.</h3>
+        <p>Agentforce Operations connects natively to your existing stack — no rip-and-replace, no disruption to Infor workflows during rollout.</p>
+      </div>
+      <div class="integration-logos">
+        <div class="int-chip">Infor ERP <span class="sub">Native API connector</span></div>
+        <div class="int-chip">Internal CRM <span class="sub">Wrap or replace</span></div>
+        <div class="int-chip">Oldcastle APG <span class="sub">Supplier email automation</span></div>
+        <div class="int-chip">Excel/Sheets <span class="sub">Replace with live data</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="michael-card">
+        <div class="michael-avatar-placeholder">MR</div>
+        <div class="michael-info">
+          <div class="name">Michael Rastiello</div>
+          <div class="title">Account Executive, Manufacturing · Salesforce</div>
+        </div>
+      </div>
+
+      <h2>Let's build the ROI case together.</h2>
+      <p>
+        The July 9th call was a strong start. The next step is a working session to quantify
+        what Agentforce Operations is worth to Eastern specifically — against your headcount,
+        your Infor gaps, and your national expansion plan.
+      </p>
+
+      <div class="cta-actions">
+        <a href="https://calendly.com/mrastiellojr-salesforce/30min" target="_blank" class="cta-btn">
+          📅 Book a Call with Michael
+        </a>
+        <div class="cta-contact">
+          <a href="tel:9738565642" class="cta-contact-item">
+            <div class="ico">📞</div>
+            <div>
+              <div style="font-weight:600;color:#fff;">973-856-5642</div>
+              <div style="font-size:11px;opacity:.6;">Call or text</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/marastiellojr/" target="_blank" class="cta-contact-item">
+            <div class="ico">💼</div>
+            <div>
+              <div style="font-weight:600;color:#fff;">LinkedIn</div>
+              <div style="font-size:11px;opacity:.6;">Connect directly</div>
+            </div>
+          </a>
+          <a href="https://www.salesforce.com/agentforce/operations/" target="_blank" class="cta-contact-item">
+            <div class="ico">🔗</div>
+            <div>
+              <div style="font-weight:600;color:#fff;">Agentforce Operations</div>
+              <div style="font-size:11px;opacity:.6;">Product overview</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>
+      Prepared by Michael Rastiello, Account Executive — Salesforce Manufacturing ·
+      <a href="tel:9738565642">973-856-5642</a> ·
+      Built for Eastern Wholesale Fence LLC · Confidential
+    </p>
+  </footer>
+
+</body>
+</html>
